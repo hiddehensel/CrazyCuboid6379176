@@ -16,7 +16,7 @@ Activities:
 	* ![Alt text](game_sketch.jpg)
 	
 * HighscoreActivity
-	* ![Alt text](highscored_sketch.jpg)
+	* ![Alt text](highscores_sketch.jpg)
 	
 * EndofgameActivity 
 	* Popup met tekst

@@ -34,7 +34,7 @@ Activities:
 * EndLostActivity 
 	* Popup met tekst
 	* knop met restart gaat naar GameActivity
-	* knop met menu gaat naar StartMenuActivity
+	* knop met exit gaat naar StartMenuActivity
 	* ![Alt text](endlost_sketch.jpg)
 * EndWonActivity 
 	* Popup met tekst

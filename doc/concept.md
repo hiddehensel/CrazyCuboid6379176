@@ -23,8 +23,9 @@ Activities:
 	* Midden in het scherm is een ronddraaiende rechthoek te zien
 	* Ontouch verplaats deze rechthoek zich richting het aangeraakte punt
 	* Bij dit verplaatsen blijft de rechthoek in het midden maar wordt er door de map gescrold.
-	* Als de rechthoek/balk een object of muur raakt heeft de speler verloren en gaat de speler naar EndofgameActivity
-	* Als de rechthoek/balk het eindobject raakt gaat heeft de speler gewonnen en gaat de speler naar EndofgameActivity
+	* Als de rechthoek/balk een object of muur raakt heeft de speler verloren en gaat de speler naar EndLostActivity
+	* Als de rechthoek/balk het eindobject raakt gaat heeft de speler gewonnen en gaat de speler naar EndWonActivity
+	* Timer is boven in het scherm te zien en start bij de eerste ontouch en stopt als de speler heeft verloren of gewonnen
 	* ![Alt text](game_sketch.jpg)
 	
 * HighscoreActivity
@@ -47,7 +48,7 @@ Activities:
 
 Databases:
 -------------
-*	Highscores worden opgeslagen in een SQLite database
+*	Highscores worden opgeslagen in een SQLite database met kolom naam en kolom tijd
 
 
 Styleguide:

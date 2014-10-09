@@ -28,14 +28,19 @@ Activities:
 	* ![Alt text](game_sketch.jpg)
 	
 * HighscoreActivity
+	* In deze activity is een lijst te zien met de top 5 spelers met de beste tijd
 	* ![Alt text](highscores_sketch.jpg)
-	
-* EndofgameActivity 
+
+* EndLostActivity 
+	* Popup met tekst
+	* knop met restart gaat naar GameActivity
+	* knop met menu gaat naar StartMenuActivity
+	* ![Alt text](endlost_sketch.jpg)
+* EndWonActivity 
 	* Popup met tekst
 	* Kan highscore invullen
-	* knop met restart gaat naar GameActivity
-	* knop met exit gaat naar StartMenuActivity
-	* ![Alt text](endgame_sketch.jpg)
+	* knop met ga verder gaat naar StartMenuActivity
+	* ![Alt text](endwon_sketch.jpg)
 
 * Activity Sketch:
 	* ![Alt text](sketch.png)

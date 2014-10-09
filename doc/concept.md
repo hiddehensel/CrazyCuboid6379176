@@ -10,9 +10,21 @@ Activities:
 	* gaat over in StartMenuActivity
 	
 * StartMenuActivity 	
+	* Activity heeft een image als achtergrond
+	* In het startmenu is een bewegende (ronddraaiende) rechthoek te zien (animatie).
+	* Het startmenu heeft drie buttons
+	* De startbutton gaat naar GameActivity
+	* De highscorebutton gaat naar HighscoreActivity
+	* De exitbutton sluit de applicatie af
 	* ![Alt text](startmenu_sketch.jpg)
 	
 * GameActivity
+	* Deze activity heeft een grote map als background
+	* Midden in het scherm is een ronddraaiende rechthoek te zien
+	* Ontouch verplaats deze rechthoek zich richting het aangeraakte punt
+	* Bij dit verplaatsen blijft de rechthoek in het midden maar wordt er door de map gescrold.
+	* Als de rechthoek/balk een object of muur raakt heeft de speler verloren en gaat de speler naar EndofgameActivity
+	* Als de rechthoek/balk het eindobject raakt gaat heeft de speler gewonnen en gaat de speler naar EndofgameActivity
 	* ![Alt text](game_sketch.jpg)
 	
 * HighscoreActivity

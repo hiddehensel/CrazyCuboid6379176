@@ -50,7 +50,8 @@ public class EndWonActivity extends Activity
     
     
     
-    //zet naam + highscore in database als textfield is ingevuld
+    //zet naam + highscore in database 
+    //als textfield is ingevuld en enter in toetsenbord
     public void storeName()
     {
         EditText editText = (EditText) findViewById(R.id.editName);
@@ -62,18 +63,7 @@ public class EndWonActivity extends Activity
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_SEND)
                 {
-                    //haal naam uit textfield (textview v)
-                    playerName = v.getText().toString();
-                    
-                    //zet naam + highscore in database
-                    SQLiteHandler database = new SQLiteHandler(EndWonActivity.this);
-                    database.addHighscore(new Highscore(playerName, playerHighscore)); 
-                    
-                    //spel is voltooid, ga naar startactivity
-                    Intent intent = new Intent(EndWonActivity.this, StartMenuActivity.class);
-                    startActivity(intent);
-                    finish();
-                    
+                    saveName(v);
                     handled = true;
                 }
                 return handled;
@@ -105,6 +95,24 @@ public class EndWonActivity extends Activity
        double voltooid = ((double)daantal)/Math.pow(10 , aantal);
        
        return voltooid;  
+    }
+    
+    
+    
+    //zet naam + highscore in database 
+    public void saveName(View view)
+    {
+        EditText editText = (EditText) findViewById(R.id.editName);
+        playerName = editText.getText().toString();
+        
+        //zet naam + highscore in database
+        SQLiteHandler database = new SQLiteHandler(EndWonActivity.this);
+        database.addHighscore(new Highscore(playerName, playerHighscore)); 
+        
+        //spel is voltooid, ga naar startactivity
+        Intent intent = new Intent(EndWonActivity.this, StartMenuActivity.class);
+        startActivity(intent);
+        finish();
     }
     
     

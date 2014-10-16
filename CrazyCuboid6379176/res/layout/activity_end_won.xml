@@ -47,6 +47,7 @@
      android:layout_alignBottom="@+id/editName"
      android:layout_alignTop="@+id/editName"
      android:layout_toRightOf="@+id/editName"
-     android:text="Ga" />
+     android:text="Ga"  
+     android:onClick="saveName"/>
 
 </RelativeLayout>

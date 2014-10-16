@@ -1,0 +1,188 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="nl.mprog.projects.crazycuboid6379176.StartMenuActivity" >
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="32dp"
+        android:layout_marginLeft="32dp"
+        android:text="Terug" 
+        android:onClick="toStart"/>
+
+<TableLayout
+     android:id="@+id/tableHighscores"
+     android:layout_width="fill_parent"
+     android:layout_marginLeft="45dp"
+     android:layout_marginBottom="25dp"
+     android:layout_marginRight="45dp"
+     android:layout_height="fill_parent"
+     android:stretchColumns="*" >
+
+     <TableRow
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:background="@drawable/border">
+          
+            <TextView
+              android:gravity="left"
+              android:text="Nummer"
+              android:background="@drawable/border"
+              android:textStyle="bold" />
+
+           <TextView
+              android:gravity="center"
+              android:text="Naam"
+              android:background="@drawable/border"
+              android:textStyle="bold" />
+
+           <TextView
+              android:gravity="right"
+              android:textStyle="bold"
+              android:background="@drawable/border"
+              android:text="Score" />
+
+     </TableRow>
+          <TableRow
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:background="@drawable/border">
+          
+            <TextView
+              android:gravity="left"
+              android:text="1"
+              android:background="@drawable/border"
+              android:textStyle="bold" />
+
+           <TextView
+              android:id="@+id/textNaam1"
+              android:gravity="center"
+              android:text=""
+              android:background="@drawable/border"
+              android:textStyle="bold" />
+
+           <TextView
+              android:id="@+id/textScore1"
+              android:gravity="right"
+              android:textStyle="bold"
+              android:background="@drawable/border"
+              android:text="" />
+
+     </TableRow>
+          <TableRow
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:background="@drawable/border">
+          
+            <TextView
+              android:gravity="left"
+              android:text="2"
+              android:background="@drawable/border"
+              android:textStyle="bold" />
+
+           <TextView
+              android:id="@+id/textNaam2"
+              android:gravity="center"
+              android:text=""
+              android:background="@drawable/border"
+              android:textStyle="bold" />
+
+           <TextView
+              android:id="@+id/textScore2"
+              android:gravity="right"
+              android:textStyle="bold"
+              android:background="@drawable/border"
+              android:text="" />
+
+     </TableRow>
+          <TableRow
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:background="@drawable/border">
+          
+            <TextView
+              android:gravity="left"
+              android:text="3"
+              android:background="@drawable/border"
+              android:textStyle="bold" />
+
+           <TextView
+              android:id="@+id/textNaam3"
+              android:gravity="center"
+              android:text=""
+              android:background="@drawable/border"
+              android:textStyle="bold" />
+
+           <TextView
+              android:id="@+id/textScore3"
+              android:gravity="right"
+              android:textStyle="bold"
+              android:background="@drawable/border"
+              android:text="" />
+
+     </TableRow>
+          <TableRow
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:background="@drawable/border">
+          
+            <TextView
+              android:gravity="left"
+              android:text="4"
+              android:background="@drawable/border"
+              android:textStyle="bold" />
+
+           <TextView
+              android:id="@+id/textNaam4"
+              android:gravity="center"
+              android:text=""
+              android:background="@drawable/border"
+              android:textStyle="bold" />
+
+           <TextView
+              android:id="@+id/textScore4"
+              android:gravity="right"
+              android:textStyle="bold"
+              android:background="@drawable/border"
+              android:text="" />
+
+     </TableRow>
+          <TableRow
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:background="@drawable/border">
+          
+            <TextView
+              android:gravity="left"
+              android:text="5"
+              android:background="@drawable/border"
+              android:textStyle="bold" />
+
+           <TextView
+              android:id="@+id/textNaam5"
+              android:gravity="center"
+              android:text=""
+              android:background="@drawable/border"
+              android:textStyle="bold" />
+
+           <TextView
+              android:id="@+id/textScore5"
+              android:gravity="right"
+              android:textStyle="bold"
+              android:background="@drawable/border"
+              android:text="" />
+
+     </TableRow>
+
+</TableLayout>
+    
+</RelativeLayout>

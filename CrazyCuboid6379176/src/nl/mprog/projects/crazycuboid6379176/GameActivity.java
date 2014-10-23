@@ -46,13 +46,6 @@ public class GameActivity extends Activity
     protected void onResume()
     {
         super.onResume();
-       // ball.resume();
-        //if(start = true)
-       // {
-        //    Intent intent = new Intent(this, StartMenuActivity.class);
-        //    startActivity(intent);
-        //    finish();
-        //}
     }
     
     @Override

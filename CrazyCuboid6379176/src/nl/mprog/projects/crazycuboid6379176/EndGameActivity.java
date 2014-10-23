@@ -83,7 +83,7 @@ public class EndGameActivity extends Activity
         playerHighscore = toDecimals(playerHighscore, 3);
         
         TextView timerview = (TextView) findViewById(R.id.textTimer);
-        timerview.setText("tijd: " + playerHighscore);
+        timerview.setText("Wauw, je hebt het wel " + playerHighscore + " secondes volgehouden!");
     }
     
     

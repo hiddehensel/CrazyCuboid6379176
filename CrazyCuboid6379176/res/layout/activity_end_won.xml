@@ -18,15 +18,6 @@
         android:text="Terug" 
         android:onClick="toStart"/>
 
- <TextView
-     android:id="@+id/textTimer"
-     android:layout_width="wrap_content"
-     android:layout_height="wrap_content"
-     android:layout_alignParentTop="true"
-     android:layout_centerHorizontal="true"
-     android:layout_marginTop="73dp"
-     android:text="Tijd" />
-
  <EditText
      android:id="@+id/editName"
      android:layout_width="wrap_content"
@@ -47,7 +38,24 @@
      android:layout_alignBottom="@+id/editName"
      android:layout_alignTop="@+id/editName"
      android:layout_toRightOf="@+id/editName"
-     android:text="Ga"  
+     android:text="OK"  
      android:onClick="saveName"/>
+
+ <TextView
+     android:id="@+id/textTimer"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_alignLeft="@+id/button1"
+     android:layout_alignParentTop="true"
+     android:layout_marginTop="46dp"
+     android:text="Tijd" />
+
+ <TextView
+     android:id="@+id/textView1"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_above="@+id/button2"
+     android:layout_alignLeft="@+id/textTimer"
+     android:text="Vul hieronder je naam in." />
 
 </RelativeLayout>

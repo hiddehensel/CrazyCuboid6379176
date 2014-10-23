@@ -83,7 +83,7 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback
         enemyCuboidH = enemyCuboid.getHeight();
         
         //timer
-        timer=System.currentTimeMillis();
+        timer = System.currentTimeMillis();
 
         angle = 0; 
         backgroundScroll = 0;  
@@ -96,10 +96,11 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback
         cuboidX = (int) (screenW /2) - (cuboidW / 2) ; 
         cuboidY = (int) (screenH /2) - (cuboidH / 2); 
 
-        //zet startpositie enemies
+        //zet startpositie enemyball
         enemyBallX = (int) (screenW /2) - (cuboidW / 2);
         enemyBallY = 0;
 
+        //zet startpositie enemycuboid
         enemyCuboidX = (int) (screenW /2) -100;
         enemyCuboidY = -600;
         

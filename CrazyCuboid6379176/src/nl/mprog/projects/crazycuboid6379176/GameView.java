@@ -103,11 +103,11 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback
         enemyCuboidX = (int) (screenW /2) -100;
         enemyCuboidY = -600;
         
-        //maak objecten aan
+        /*maak objecten aan
         cuboidObject = new Cuboid(cuboidW,cuboidH,cuboidX,cuboidY);
         enemyBallObject = new EnemyBall(enemyBallW,enemyBallH,enemyBallX,enemyBallY, enemyBallRadius);
         enemyCuboidObject = new EnemyCuboid(enemyCuboidW,enemyCuboidH,enemyCuboidX,enemyCuboidY);
-        
+        */
         timerPaint.setTextSize(100);
     }
     
@@ -129,24 +129,23 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public synchronized boolean onTouchEvent(MotionEvent event)
     {
+        double eventX, eventY;
         switch (event.getAction())
         {
             //scherm aanraken
             case MotionEvent.ACTION_DOWN:
             {
-                double length = Math.sqrt((( event.getX() -cuboidX  ) * ( event.getX() -cuboidX  )) + (( event.getY() -cuboidY  ) * ( event.getY() -cuboidY  )));
-                touchX = (int) ((( event.getX() -(cuboidX +(cuboidW/2)) )/length) *30);
-                touchY = (int) (( (event.getY() -(cuboidY +(cuboidH/2))   )/length) *30);
+                eventX = event.getX();
+                eventY = event.getY();
+                moveDirection(eventX,eventY);
                 break;
             }
             //bewegen over scherm
             case MotionEvent.ACTION_MOVE:
             {
-                double length = Math.sqrt((( event.getX() -cuboidX  ) * ( event.getX() -cuboidX  )) + (( event.getY() -cuboidY  ) * ( event.getY() -cuboidY  )));
-                touchX = (int) ((( event.getX() -(cuboidX +(cuboidW/2)) )/length) *30);
-                touchY = (int) (( (event.getY() -(cuboidY +(cuboidH/2))   )/length) *30);
-                cuboidX = cuboidX + touchX;
-                cuboidY = cuboidY + touchY;
+                eventX = event.getX();
+                eventY = event.getY();
+                moveDirection(eventX,eventY);
                 break;
             }
             //scherm loslaten
@@ -155,9 +154,23 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback
                 touchY = 0;
                 break;
             }
+        
         return true;
     }
 
+    
+    
+    
+    public void moveDirection(double eventX, double eventY)
+    {
+        int speed = 60;
+        double length = Math.sqrt((( eventX -cuboidX) * ( eventX - cuboidX)) + (( eventY -cuboidY) * ( eventY - cuboidY)));
+        touchX = (int) ((( eventX -(cuboidX +(cuboidW/2)) )/length) * speed);
+        touchY = (int) (( (eventY -(cuboidY +(cuboidH/2))   )/length) * speed);
+        cuboidX = cuboidX + touchX;
+        cuboidY = cuboidY + touchY;
+    }
+    
     
     
     
@@ -177,19 +190,65 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback
         canvas.drawBitmap(background, fromRect1, toRect1, null);
 
         //volgende scroll
-        if ( (backgroundScroll += backgroundScrollSpeed) >= backgroundH)
+        if ((backgroundScroll += backgroundScrollSpeed) >= backgroundH)
         {
             backgroundScroll = 0;
         }
 
+        //pas rotatiesnelheid speler aan
         angle += 1;
         if (angle++ >180)
            angle =0;
         
+        //kijk of cuboid ergens mee in collision is
+        collisionDetection();
+         
+        //draai en translate balk met matrix
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle, (cuboidW / 2), (cuboidH / 2)); 
+        matrix.postTranslate(cuboidX, cuboidY); 
+        //draw cuboid met rotatiematrix
+        canvas.drawBitmap(cuboid, matrix, null); 
+        
+        //draw vijanden
+        canvas.drawBitmap(enemyCuboid, enemyCuboidX, enemyCuboidY, null);
+        canvas.drawBitmap(enemyBall, enemyBallX, enemyBallY, null);
+        
+        //reset enemyball als hij buiten het scherm komt
+        if (enemyBallY > screenH)
+        {
+            enemyBallY = -30;
+            enemyBallX = randomInteger(0, (screenW-enemyBallW));
+        }
+        enemyBallY += 5;
+        
+        //reset enemycuboid als hij buiten het scherm komt
+        if (enemyCuboidY > screenH)
+        {
+            enemyCuboidY = -30;
+            enemyCuboidX = randomInteger(0,screenW-enemyCuboidW);
+        }
+        enemyCuboidY += 5;
+        
+         //timer
+        timerNow = (System.currentTimeMillis() - timer);
+        long timerNowSeconds = (System.currentTimeMillis() - timer) / 1000;
+        long timerNowDecimals =  (System.currentTimeMillis() - timer)- (timerNowSeconds*1000);
+        canvas.drawText(timerNowSeconds+ "." + timerNowDecimals, ((screenW/2)-100), 150, timerPaint);
+    }
+    
+    
+    
+    
+    
+    public void collisionDetection()
+    {
+        //bereken middelpunt van speler cuboid
         double middelpuntX = cuboidX + (cuboidW/2);
         double middelpuntY = cuboidY + (cuboidH/2);
         
         //volgorde topLX, topLY, topRX, topRY, botRX, botRY, botLX, botLY
+        //bereken afstand van middelpunt van hoekpunten speler cuboid
         double []cuboidPointArrayRotated = new double[8];
         cuboidPointArrayRotated[0] =  cuboidX - middelpuntX;
         cuboidPointArrayRotated[1] =  (cuboidY - middelpuntY);
@@ -203,6 +262,7 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback
         //y' = y*cos(a) - x*sin(a)
         //x' = y*sin(a) + x*cos(a)
         //met x en y afstand tussen center of rotation
+        //bereken afstand van middelpunt na draaiing van hoekpunten speler cuboid
         double a = -angle * Math.PI / 180;
         double []cuboidPointArrayRotated2 = new double[8];
         cuboidPointArrayRotated2[0] = (double) ((cuboidPointArrayRotated[1] * Math.sin(a)) + (cuboidPointArrayRotated[0] * Math.cos(a)));
@@ -214,6 +274,7 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback
         cuboidPointArrayRotated2[6] = (double) ((cuboidPointArrayRotated[7] * Math.sin(a)) + (cuboidPointArrayRotated[6] * Math.cos(a)));
         cuboidPointArrayRotated2[7] = (double) ((cuboidPointArrayRotated[7] * Math.cos(a)) - (cuboidPointArrayRotated[6] * Math.sin(a)));
         
+        //bereken gedraaide coordinaten hoekpunten speler cuboid na rotatie op scherm
         double []cuboidPointArrayRotated3 = new double[8];
         cuboidPointArrayRotated3[0] = cuboidPointArrayRotated2[0] + middelpuntX;
         cuboidPointArrayRotated3[1] = cuboidPointArrayRotated2[1] + middelpuntY;
@@ -224,34 +285,7 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback
         cuboidPointArrayRotated3[6] = cuboidPointArrayRotated2[6] + middelpuntX;
         cuboidPointArrayRotated3[7] = cuboidPointArrayRotated2[7] + middelpuntY;
         
-        cuboidX = cuboidX + touchX;
-        cuboidY = cuboidY + touchY;
-
-        if (enemyBallY > screenH)
-        {
-            enemyBallY = -30;
-            enemyBallX = randInt(0, (screenW-enemyBallW));
-        }
-        enemyBallY += 5;
-            
-        if (enemyCuboidY > screenH)
-        {
-            enemyCuboidY = -30;
-            enemyCuboidX = randInt(0,screenW-enemyCuboidW);
-        }
-        enemyCuboidY += 5;
-        
-        //draai en translate balk met matrix
-        Matrix matrix = new Matrix();
-        matrix.postRotate(angle, (cuboidW / 2), (cuboidH / 2)); 
-        matrix.postTranslate(cuboidX, cuboidY); 
-        //draw cuboid met rotatiematrix
-        canvas.drawBitmap(cuboid, matrix, null); 
-        
-        //draw vijanden
-        canvas.drawBitmap(enemyCuboid, enemyCuboidX, enemyCuboidY, null);
-        canvas.drawBitmap(enemyBall, enemyBallX, enemyBallY, null);
-        
+        //muurcollision
         for(int i = 0; i < 8; i++)
         {
            if(cuboidPointArrayRotated3[i] < 0)
@@ -287,19 +321,17 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback
         checkEnemyPunt[4] = Math.pow(((cuboidX+ (cuboidW/2)) - (enemyBallX + (enemyBallW / 2))),2) + Math.pow((cuboidY + (cuboidH/2 )- (enemyBallY+ (enemyBallH / 2))),2);
         double enemyRadiusCheck = Math.pow(enemyBallRadius,2);
         
-        //check of cuboid bal raakt
+        //check of cuboid bal raakt (ballcollision)
         if(     checkEnemyPunt[0] < enemyRadiusCheck || 
                 checkEnemyPunt[1] < enemyRadiusCheck || 
                 checkEnemyPunt[2] < enemyRadiusCheck || 
                 checkEnemyPunt[3] < enemyRadiusCheck ||
                 checkEnemyPunt[4] < enemyRadiusCheck)
         {
-            System.out.println("enemyBall");
             toWon();
-            
         }
         
-        //check of cuboid enemycuboid raakt
+        //check of cuboid enemycuboid raakt (cuboidcollision)
         if( (cuboidPointArrayRotated3[0] > enemyCuboidX &&  cuboidPointArrayRotated3[0] < (enemyCuboidX + enemyCuboidW)) && (cuboidPointArrayRotated3[1] > enemyCuboidY &&  cuboidPointArrayRotated3[1] < (enemyCuboidY + enemyCuboidH)) || 
                 (cuboidPointArrayRotated3[2] > enemyCuboidX &&  cuboidPointArrayRotated3[2] < (enemyCuboidX + enemyCuboidW)) && (cuboidPointArrayRotated3[3] > enemyCuboidY &&  cuboidPointArrayRotated3[3] < (enemyCuboidY + enemyCuboidH)) ||
                 (cuboidPointArrayRotated3[4] > enemyCuboidX &&  cuboidPointArrayRotated3[4] < (enemyCuboidX + enemyCuboidW)) && (cuboidPointArrayRotated3[5] > enemyCuboidY &&  cuboidPointArrayRotated3[5] < (enemyCuboidY + enemyCuboidH)) ||
@@ -307,28 +339,19 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback
                 (middelpuntX > enemyCuboidX &&  middelpuntX < (enemyCuboidX + enemyCuboidW)) && (middelpuntY > enemyCuboidY &&  middelpuntY < (enemyCuboidY + enemyCuboidH)))
         { 
             toWon();
-            System.out.println("enemyCuboid");
-        
         }
-        
-         //timer
-         timerNow = (System.currentTimeMillis() - timer);
-         long timerNowSeconds = (System.currentTimeMillis() - timer) / 1000;
-         long timerNowDecimals =  (System.currentTimeMillis() - timer)- (timerNowSeconds*1000);
-         canvas.drawText(timerNowSeconds+ "." + timerNowDecimals, ((screenW/2)-100), 150, timerPaint);
     }
     
-    
-    
-    public static int randInt(int min, int max)
+    //randinteger voor random x waarde
+    public int randomInteger(int min, int max)
     {
-        Random rand = new Random();
-        int randomNum = rand.nextInt((max - min) + 1) + min;
-        return randomNum;
+        Random random = new Random();
+        int randomNumber = random.nextInt((max - min) + 1) + min;
+        return randomNumber;
     }
     
     
-    
+    //naar endgame
     public void toWon()
     {
         //vibrate
@@ -339,7 +362,7 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback
         thread.interrupt();
         
         //geef timer now mee aan endwon om highscore op te slaan
-        Intent intent = new Intent(contextSaved, EndWonActivity.class);
+        Intent intent = new Intent(contextSaved, EndGameActivity.class);
         intent.putExtra("timecount", timerNow);
         
         contextSaved.startActivity(intent);

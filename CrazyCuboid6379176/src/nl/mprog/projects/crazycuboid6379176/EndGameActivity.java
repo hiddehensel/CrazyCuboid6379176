@@ -12,7 +12,7 @@ import android.widget.TextView.OnEditorActionListener;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 
-public class EndWonActivity extends Activity
+public class EndGameActivity extends Activity
 {
     public String playerName = "";
     public double playerHighscore = 0;
@@ -106,11 +106,11 @@ public class EndWonActivity extends Activity
         playerName = editText.getText().toString();
         
         //zet naam + highscore in database
-        SQLiteHandler database = new SQLiteHandler(EndWonActivity.this);
+        SQLiteHandler database = new SQLiteHandler(EndGameActivity.this);
         database.addHighscore(new Highscore(playerName, playerHighscore)); 
         
         //spel is voltooid, ga naar startactivity
-        Intent intent = new Intent(EndWonActivity.this, StartMenuActivity.class);
+        Intent intent = new Intent(EndGameActivity.this, StartMenuActivity.class);
         startActivity(intent);
         finish();
     }

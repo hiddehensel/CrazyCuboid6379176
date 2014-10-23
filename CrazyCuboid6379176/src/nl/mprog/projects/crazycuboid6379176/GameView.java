@@ -39,8 +39,9 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback
     Context contextSaved;
     long timerNow, timer;
     Paint timerPaint = new Paint();
-    
-    
+    EnemyBall enemyBallObject;
+    EnemyCuboid enemyCuboidObject;
+    Cuboid cuboidObject;
     
     
     public GameView(Context context)
@@ -67,7 +68,9 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback
         //bitmaps images inladen
         cuboid = BitmapFactory.decodeResource(getResources(),R.drawable.cuboid, options);
         background = BitmapFactory.decodeResource(getResources(),R.drawable.background);
-        enemyBall = BitmapFactory.decodeResource(getResources(),R.drawable.enemy_ball);
+        
+        options.inSampleSize = 2;
+        enemyBall = BitmapFactory.decodeResource(getResources(),R.drawable.enemy_ball, options);
         enemyCuboid = BitmapFactory.decodeResource(getResources(),R.drawable.enemy_cuboid);
         
         // vars
@@ -92,14 +95,18 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback
         //zet startpositie balk
         cuboidX = (int) (screenW /2) - (cuboidW / 2) ; 
         cuboidY = (int) (screenH /2) - (cuboidH / 2); 
-        
+
         //zet startpositie enemies
         enemyBallX = (int) (screenW /2) - (cuboidW / 2);
         enemyBallY = 0;
-        
+
         enemyCuboidX = (int) (screenW /2) -100;
         enemyCuboidY = -600;
-
+        
+        //maak objecten aan
+        cuboidObject = new Cuboid(cuboidW,cuboidH,cuboidX,cuboidY);
+        enemyBallObject = new EnemyBall(enemyBallW,enemyBallH,enemyBallX,enemyBallY, enemyBallRadius);
+        enemyCuboidObject = new EnemyCuboid(enemyCuboidW,enemyCuboidH,enemyCuboidX,enemyCuboidY);
         
         timerPaint.setTextSize(100);
     }
@@ -170,27 +177,20 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback
         canvas.drawBitmap(background, fromRect1, toRect1, null);
 
         //volgende scroll
-        if ( (backgroundScroll += backgroundScrollSpeed) >= backgroundH) {
+        if ( (backgroundScroll += backgroundScrollSpeed) >= backgroundH)
+        {
             backgroundScroll = 0;
         }
 
-        /*
-        topLX
-        topLY
-        topRX
-        topRY
-        botRX
-        botRY
-        botLX
-        botLY
-        */
         angle += 1;
         if (angle++ >180)
            angle =0;
         
-        float middelpuntX = cuboidX + (cuboidW/2);
-        float middelpuntY = cuboidY + (cuboidH/2);
-        float []cuboidPointArrayRotated = new float[8];
+        double middelpuntX = cuboidX + (cuboidW/2);
+        double middelpuntY = cuboidY + (cuboidH/2);
+        
+        //volgorde topLX, topLY, topRX, topRY, botRX, botRY, botLX, botLY
+        double []cuboidPointArrayRotated = new double[8];
         cuboidPointArrayRotated[0] =  cuboidX - middelpuntX;
         cuboidPointArrayRotated[1] =  (cuboidY - middelpuntY);
         cuboidPointArrayRotated[2] =  cuboidX + (cuboidW) - middelpuntX;
@@ -204,17 +204,17 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback
         //x' = y*sin(a) + x*cos(a)
         //met x en y afstand tussen center of rotation
         double a = -angle * Math.PI / 180;
-        float []cuboidPointArrayRotated2 = new float[8];
-        cuboidPointArrayRotated2[0] = (float) ((cuboidPointArrayRotated[1] * Math.sin(a)) + (cuboidPointArrayRotated[0] * Math.cos(a)));
-        cuboidPointArrayRotated2[1] = (float) ((cuboidPointArrayRotated[1] * Math.cos(a)) - (cuboidPointArrayRotated[0] * Math.sin(a)));
-        cuboidPointArrayRotated2[2] = (float) ((cuboidPointArrayRotated[3] * Math.sin(a)) + (cuboidPointArrayRotated[2] * Math.cos(a)));
-        cuboidPointArrayRotated2[3] = (float) ((cuboidPointArrayRotated[3] * Math.cos(a)) - (cuboidPointArrayRotated[2] * Math.sin(a)));
-        cuboidPointArrayRotated2[4] = (float) ((cuboidPointArrayRotated[5] * Math.sin(a)) + (cuboidPointArrayRotated[4] * Math.cos(a)));
-        cuboidPointArrayRotated2[5] = (float) ((cuboidPointArrayRotated[5] * Math.cos(a)) - (cuboidPointArrayRotated[4] * Math.sin(a)));
-        cuboidPointArrayRotated2[6] = (float) ((cuboidPointArrayRotated[7] * Math.sin(a)) + (cuboidPointArrayRotated[6] * Math.cos(a)));
-        cuboidPointArrayRotated2[7] = (float) ((cuboidPointArrayRotated[7] * Math.cos(a)) - (cuboidPointArrayRotated[6] * Math.sin(a)));
+        double []cuboidPointArrayRotated2 = new double[8];
+        cuboidPointArrayRotated2[0] = (double) ((cuboidPointArrayRotated[1] * Math.sin(a)) + (cuboidPointArrayRotated[0] * Math.cos(a)));
+        cuboidPointArrayRotated2[1] = (double) ((cuboidPointArrayRotated[1] * Math.cos(a)) - (cuboidPointArrayRotated[0] * Math.sin(a)));
+        cuboidPointArrayRotated2[2] = (double) ((cuboidPointArrayRotated[3] * Math.sin(a)) + (cuboidPointArrayRotated[2] * Math.cos(a)));
+        cuboidPointArrayRotated2[3] = (double) ((cuboidPointArrayRotated[3] * Math.cos(a)) - (cuboidPointArrayRotated[2] * Math.sin(a)));
+        cuboidPointArrayRotated2[4] = (double) ((cuboidPointArrayRotated[5] * Math.sin(a)) + (cuboidPointArrayRotated[4] * Math.cos(a)));
+        cuboidPointArrayRotated2[5] = (double) ((cuboidPointArrayRotated[5] * Math.cos(a)) - (cuboidPointArrayRotated[4] * Math.sin(a)));
+        cuboidPointArrayRotated2[6] = (double) ((cuboidPointArrayRotated[7] * Math.sin(a)) + (cuboidPointArrayRotated[6] * Math.cos(a)));
+        cuboidPointArrayRotated2[7] = (double) ((cuboidPointArrayRotated[7] * Math.cos(a)) - (cuboidPointArrayRotated[6] * Math.sin(a)));
         
-        float []cuboidPointArrayRotated3 = new float[8];
+        double []cuboidPointArrayRotated3 = new double[8];
         cuboidPointArrayRotated3[0] = cuboidPointArrayRotated2[0] + middelpuntX;
         cuboidPointArrayRotated3[1] = cuboidPointArrayRotated2[1] + middelpuntY;
         cuboidPointArrayRotated3[2] = cuboidPointArrayRotated2[2] + middelpuntX;
@@ -276,6 +276,7 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback
                }
            }
         }
+        
         //coordinaat met x en y zit in bal als: 
         //(x-center_x)^2+(y-center_y)^2 <radius^2 
         double []checkEnemyPunt = new double [5];
@@ -285,6 +286,8 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback
         checkEnemyPunt[3] = Math.pow((cuboidPointArrayRotated3[6]- (enemyBallX + (enemyBallW / 2))),2) + Math.pow((cuboidPointArrayRotated3[7]- (enemyBallY+ (enemyBallH / 2))),2);
         checkEnemyPunt[4] = Math.pow(((cuboidX+ (cuboidW/2)) - (enemyBallX + (enemyBallW / 2))),2) + Math.pow((cuboidY + (cuboidH/2 )- (enemyBallY+ (enemyBallH / 2))),2);
         double enemyRadiusCheck = Math.pow(enemyBallRadius,2);
+        
+        //check of cuboid bal raakt
         if(     checkEnemyPunt[0] < enemyRadiusCheck || 
                 checkEnemyPunt[1] < enemyRadiusCheck || 
                 checkEnemyPunt[2] < enemyRadiusCheck || 
@@ -296,6 +299,7 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback
             
         }
         
+        //check of cuboid enemycuboid raakt
         if( (cuboidPointArrayRotated3[0] > enemyCuboidX &&  cuboidPointArrayRotated3[0] < (enemyCuboidX + enemyCuboidW)) && (cuboidPointArrayRotated3[1] > enemyCuboidY &&  cuboidPointArrayRotated3[1] < (enemyCuboidY + enemyCuboidH)) || 
                 (cuboidPointArrayRotated3[2] > enemyCuboidX &&  cuboidPointArrayRotated3[2] < (enemyCuboidX + enemyCuboidW)) && (cuboidPointArrayRotated3[3] > enemyCuboidY &&  cuboidPointArrayRotated3[3] < (enemyCuboidY + enemyCuboidH)) ||
                 (cuboidPointArrayRotated3[4] > enemyCuboidX &&  cuboidPointArrayRotated3[4] < (enemyCuboidX + enemyCuboidW)) && (cuboidPointArrayRotated3[5] > enemyCuboidY &&  cuboidPointArrayRotated3[5] < (enemyCuboidY + enemyCuboidH)) ||

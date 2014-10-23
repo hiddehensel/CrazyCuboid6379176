@@ -49,7 +49,7 @@
               android:gravity="right"
               android:textStyle="bold"
               android:background="@drawable/border"
-              android:text="Score" />
+              android:text="Tijd" />
 
      </TableRow>
           <TableRow

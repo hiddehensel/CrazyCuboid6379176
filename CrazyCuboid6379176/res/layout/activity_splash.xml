@@ -10,7 +10,7 @@
         android:layout_height="wrap_content" 
         android:id="@+id/SplashImageView"
         android:layout_gravity="center"        
-        android:src="@drawable/ic_launcher"        
+        android:src="@drawable/cuboid"        
         >
     </ImageView>
 </LinearLayout>

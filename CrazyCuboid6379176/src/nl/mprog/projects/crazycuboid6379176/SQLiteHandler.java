@@ -76,9 +76,9 @@ public class SQLiteHandler extends SQLiteOpenHelper
         //maak arraylist van classes
         List<Highscore> highscoreList = new ArrayList<Highscore>();
         
-        //query waarbij je alles pakt asc gesorteerd
-        //SELECT  * FROM highscores ORDER BY score ASC
-        String sortQuery = "SELECT * FROM " + TABLE_HIGHSCORES + " ORDER BY " + KEY_HIGHSCORE + " ASC";
+        //query waarbij je alles pakt desc gesorteerd
+        //SELECT  * FROM highscores ORDER BY score DESC
+        String sortQuery = "SELECT * FROM " + TABLE_HIGHSCORES + " ORDER BY " + KEY_HIGHSCORE + " DESC";
         SQLiteDatabase database = this.getWritableDatabase();
         
         Cursor cursor = database.rawQuery(sortQuery, null);

@@ -76,11 +76,11 @@ public class EndWonActivity extends Activity
     //bereken de tijd waarin de speler het spel heeft voltooid
     public void setTime()
     {
-        double timecount = getIntent().getExtras().getDouble("timecount");
-        double maxtime = getIntent().getExtras().getDouble("maxtime");
+        long timecount = getIntent().getExtras().getLong("timecount");
 
-        playerHighscore = maxtime-timecount;
-        playerHighscore = toDecimals(playerHighscore, 2);
+        playerHighscore = (double)timecount/1000;
+        System.out.println(playerHighscore);
+        playerHighscore = toDecimals(playerHighscore, 3);
         
         TextView timerview = (TextView) findViewById(R.id.textTimer);
         timerview.setText("tijd: " + playerHighscore);
